@@ -27,8 +27,17 @@ class Home extends Component {
         //     )
         // }
     }
+    constructor(props){
+        super(props)
+        this.state = {
+            showSwiper: false
+        }
+    }
     componentDidMount(){
-        console.log('Home')
+        setTimeout(()=>{
+            this.setState({showSwiper:true})
+                
+        },10)
         this.props.actions.getBanner()
         this.props.actions.getPersonalized()
     }
@@ -39,7 +48,7 @@ class Home extends Component {
     _renderBanner(){
         const {base, baseUI} = this.props
         const {banners=[]} = base;
-        if(banners && banners.length > 0){
+        if(banners && banners.length > 0 && this.state.showSwiper){
             return banners.map(item=>{
                 return (
                     <TouchableOpacity key={item.targetId} activeOpacity={1}  style={styles.bannerContainer}>
@@ -83,18 +92,18 @@ class Home extends Component {
         return (
             <Container>
                 {/* <SafeAreaView> */}
+                <StatusBar barStyle="light-content"/>
                     <Content>
-                        <Swiper 
-                            autoplay
-                            style={styles.wrapper} 
-                            dotStyle={{bottom:0,width:5,height:5}} 
-                            activeDotStyle={{width:5,height:5}}
-                            paginationStyle={{bottom:5}} 
-                            activeDotColor="#444" 
-                            dotColor="#fff"
-                        >
-                            {this._renderBanner()}
-                        </Swiper>
+                        <Swiper
+                        style={styles.wrapper} 
+                        dotStyle={{bottom:0,width:5,height:5}} 
+                        activeDotStyle={{width:5,height:5}}
+                        paginationStyle={{bottom:5}} 
+                        activeDotColor="#444" 
+                        dotColor="#fff"
+                    >
+                    {this._renderBanner()}
+                    </Swiper>
                         <Row style={styles.menuWrapper}>
                             <Col style={styles.col}>
                                 <Image style={styles.btnIcon} source={require('../../images/fm_normal.png')}/>
@@ -134,7 +143,6 @@ class Home extends Component {
 const {width,height} = Dimensions.get('window')
 const color1 = "rgb(102,102,104)"
 const styles = StyleSheet.create({
-    
     wrapper:{
         width:width,
         height:width*0.39
@@ -143,10 +151,11 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         justifyContent:'center',
-        padding: 12,
         backgroundColor:"#fff",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: "#c9c9c9"
+        borderBottomColor: "#c9c9c9",
+        paddingHorizontal: 12,
+        paddingVertical: 20
     },
     bannerContainer:{
         flex:1,

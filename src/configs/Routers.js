@@ -59,7 +59,7 @@ const MainNavigator = StackNavigator(
             },
             headerTransparent: true,
             headerBackground: (
-                <BlurView style={{ flex: 1 }} intensity={98} />
+                <BlurView style={{ flex: 1 }}  blurType="light" blurAmount={10} />
             ),
           },
     }
