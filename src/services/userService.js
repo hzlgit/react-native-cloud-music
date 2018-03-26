@@ -6,15 +6,14 @@ export function login (phone, password) {
     password: password
   })
     .then((data) => {
+      console.log(data)
       return data
     })
 }
 
 export function loginRefresh (phone, password) {
   return requestService.get('login/refresh')
-    .then((data) => {
-      return data
-    })
+    .then((data) => data)
 }
 
 export function getPlaylist (uid) {
@@ -22,6 +21,19 @@ export function getPlaylist (uid) {
     uid: uid
   })
     .then((data) => {
-      return data
+      if (data.code === 200) {
+        return data.playlist
+      }
+      throw data
+    })
+}
+
+export function getSubcount () {
+  return requestService.get('user/subcount')
+    .then((data) => {
+      if (data.code === 200) {
+        return data
+      }
+      throw data
     })
 }

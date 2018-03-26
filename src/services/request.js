@@ -1,5 +1,6 @@
 import qs from 'query-string'
 import config from '../configs'
+import {AsyncStorage} from 'react-native'
 
 const urlPrefix = config.domain + config.apiPath
 const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent
@@ -11,6 +12,10 @@ function filterJSON (res) {
 function filterStatus (res) {
   console.log('result', res)
   if (res.status >= 200 && res.status < 300) {
+    let cookie = res.headers.map['set-cookie']
+    if (cookie) {
+      AsyncStorage.setItem('cookie', JSON.stringify(cookie))
+    }
     return res
   } else {
     let error = new Error(res.statusText)
@@ -20,7 +25,7 @@ function filterStatus (res) {
   }
 }
 
-export function get (url, params) {
+export async function get (url, params) {
   url = urlPrefix + url
   if (params) {
     url += `?${qs.stringify(params)}`
@@ -30,13 +35,16 @@ export function get (url, params) {
     console.info('GET: ', url)
     console.info('Params: ', params)
   }
-
-  return fetch(url)
+  return fetch(url, {
+    headers: {
+      cookie: await AsyncStorage.getItem('cookie')
+    }
+  })
     .then(filterStatus)
     .then(filterJSON)
 }
 
-export function post (url, body) {
+export async function post (url, body) {
   url = urlPrefix + url
 
   if (isDebuggingInChrome) {
@@ -48,7 +56,8 @@ export function post (url, body) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'cookie': await AsyncStorage.getItem('cookie')
     },
     body: JSON.stringify(body)
   })

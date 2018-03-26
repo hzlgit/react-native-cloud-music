@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { StyleSheet, View } from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import {Container, Input, Item, Icon, Button, Text} from 'native-base'
+import LoadingWrap from '../components/LoadingWrap'
+
 const resetAction = NavigationActions.reset({
   index: 0,
   actions: [
@@ -22,7 +24,20 @@ class Login extends Component {
     }
 
     onLogin = () => {
-      this.props.navigation.dispatch(resetAction)
+      const {actions, navigation} = this.props
+      if (!/^1\d{10}$/.test(this.state.phone)) {
+        actions.toast('请输入正确的手机号码')
+        return
+      }
+      if (!this.state.password) {
+        actions.toast('请输入密码')
+        return
+      }
+      actions.login(this.state.phone, this.state.password, (result) => {
+        if (result.code === 200) {
+          navigation.dispatch(resetAction)
+        }
+      })
     }
 
     onClose = () => {
@@ -30,7 +45,6 @@ class Login extends Component {
     }
 
     render () {
-      const { fetching } = this.props
       return (
         <Container style={styles.container}>
           <Item>
@@ -59,6 +73,7 @@ class Login extends Component {
               <Text>登录</Text>
             </Button>
           </View>
+          <LoadingWrap show={this.props.ui.loginPending} title='正在登录...' />
         </Container>
       )
     }
@@ -68,8 +83,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12
-    // backgroundColor:"#fff"
-
   },
   input: {
 
@@ -78,6 +91,7 @@ const styles = StyleSheet.create({
 export const LayoutComponent = Login
 export function mapStateToProps (state) {
   return {
-    user: state.user
+    user: state.user,
+    ui: state.userUI
   }
 }

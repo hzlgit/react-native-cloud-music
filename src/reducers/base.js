@@ -5,7 +5,7 @@ const initialState = {
 }
 export default function (state = initialState, action) {
   const {payload, error, meta = {}, type} = action
-  const {sequence = {}, mobile, account} = meta
+  const {sequence = {}} = meta
   if (sequence.type === 'start' || error) {
     return state
   }

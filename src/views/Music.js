@@ -14,7 +14,10 @@ class Music extends Component {
       )
     }
     componentDidMount () {
-
+      const {user = {}, actions} = this.props
+      if (user && user.userInfo.id) {
+        actions.getPlaylist(user.userInfo.id)
+      }
     }
 
     gotoLogin = () => {
@@ -36,7 +39,7 @@ class Music extends Component {
                 </Body>
                 <Right>
                   <Text note>0</Text>
-                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16 }} />
+                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16}} />
                 </Right>
               </ListItem>
               <ListItem icon>
@@ -48,7 +51,7 @@ class Music extends Component {
                 </Body>
                 <Right>
                   <Text note>0</Text>
-                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16 }} />
+                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16}} />
                 </Right>
               </ListItem>
               <ListItem icon>
@@ -60,7 +63,7 @@ class Music extends Component {
                 </Body>
                 <Right>
                   <Text note>0</Text>
-                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16 }} />
+                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16}} />
                 </Right>
               </ListItem>
               <ListItem icon last>
@@ -72,7 +75,7 @@ class Music extends Component {
                 </Body>
                 <Right>
                   <Text note>0</Text>
-                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16 }} />
+                  <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16}} />
                 </Right>
               </ListItem>
             </View>

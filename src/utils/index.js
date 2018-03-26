@@ -68,7 +68,7 @@ export function formatTenThousand (v, bit = 0) {
     } else {
       return rv.toFixed(bit) + '万'
     }
-  } else {
+  } else if (v >= 100000000) {
     let rv = (v / 100000000)
     let s = rv.toString()
     if (s.indexOf('.') < 0) {

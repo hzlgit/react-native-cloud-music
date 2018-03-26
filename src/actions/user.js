@@ -1,18 +1,28 @@
 import {createAction} from 'redux-actions'
 import * as types from '../constants/ActionTypes'
+import * as userService from '../services/userService'
+
 /**
  * 登录
  */
 export const login = createAction(
   types.LOGIN,
-  async ({mobile, password}) => {
+  userService.login,
+  (phone, password, resolved, rejected) => {
     return {
-      mobile,
-      password
+      phone,
+      resolved,
+      rejected
     }
-  }, ({mobile}, resolved) => {
+  })
+
+export const getPlaylist = createAction(
+  types.GET_PLAY_LIST,
+  async (uid) => {
+    const playlist = await userService.getPlaylist(uid)
+    const subCount = await userService.getSubcount()
     return {
-      mobile,
-      resolved: resolved
+      playlist,
+      subCount
     }
   })

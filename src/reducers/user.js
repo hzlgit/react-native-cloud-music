@@ -1,33 +1,33 @@
 import * as types from '../constants/ActionTypes'
 const initialState = {
-  userInfo: null
+  userInfo: {},
+  userProfile: {},
+  userAccount: {},
+  playlist: [],
+  subCount: {}
 }
 export default function (state = initialState, action) {
   const {payload, error, meta = {}, type} = action
-  const {sequence = {}, mobile, account} = meta
+  const {sequence = {}, phone} = meta
   if (sequence.type === 'start' || error) {
     return state
   }
   switch (type) {
     case types.LOGIN:
-      if (payload.publicInfo) {
+      if (payload.code === 200) {
         return {
           ...state,
-          token: payload.token,
-          users: {
-            ...state.users,
-            [mobile]: {
-              ...state.users[mobile],
-              ...payload.publicInfo
-            }
-          },
-          userName: mobile
+          userAccount: phone,
+          userInfo: payload.account,
+          userProfile: payload.profile
         }
       }
+      return state
+    case types.GET_PLAY_LIST:
       return {
         ...state,
-        token: payload.token,
-        userName: mobile
+        playlist: payload.playlist,
+        subCount: payload.subCount
       }
     case types.LOGOUT:
       return {
