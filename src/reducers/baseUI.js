@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         getPersonalizedPending: sequence.type === 'start'
-      };
+      }
     default:
       return state
   }

@@ -9,10 +9,10 @@ function filterJSON (res) {
 }
 
 function filterStatus (res) {
-  console.log('result',res)
+  console.log('result', res)
   if (res.status >= 200 && res.status < 300) {
     return res
-  }	else {
+  } else {
     let error = new Error(res.statusText)
     error.res = res
     error.type = 'http'
@@ -32,8 +32,8 @@ export function get (url, params) {
   }
 
   return fetch(url)
-		.then(filterStatus)
-		.then(filterJSON)
+    .then(filterStatus)
+    .then(filterJSON)
 }
 
 export function post (url, body) {
@@ -52,6 +52,6 @@ export function post (url, body) {
     },
     body: JSON.stringify(body)
   })
-		.then(filterStatus)
-		.then(filterJSON)
+    .then(filterStatus)
+    .then(filterJSON)
 }

@@ -1,0 +1,32 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
+  "globals": {
+    "__DEV__": true,
+    "fetch": false
+  },
+  "rules": {
+    "eqeqeq": "warn",
+    "indent": "warn",
+    "no-mixed-spaces-and-tabs": "warn",
+    "no-multi-spaces": "warn",
+    "no-return-assign": "warn",
+    "no-return-await": "warn",
+    "no-tabs": "warn",
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "none",
+        "varsIgnorePattern": "React"
+      }
+    ],
+    "react/no-unused-prop-types": "warn",
+    "react/prop-types": 0,
+    "standard/array-bracket-even-spacing": "warn",
+    "standard/object-curly-even-spacing": "warn"
+  }
+}
