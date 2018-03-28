@@ -4,6 +4,9 @@ import nav from './nav'
 import base from './base'
 import baseUI from './baseUI'
 import userUI from './userUI'
+import music from './music'
+import playbox from './playbox'
+import musicUI from './musicUI'
 
 export default {
   utils,
@@ -11,5 +14,8 @@ export default {
   nav,
   base,
   baseUI,
-  userUI
+  userUI,
+  playbox,
+  music,
+  musicUI
 }

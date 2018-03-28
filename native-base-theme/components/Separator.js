@@ -12,6 +12,9 @@ export default (variables = variable) => {
         paddingTop: variables.listItemPadding + 12
       }
     },
+    '.section': {
+      backgroundColor: '#fff'
+    },
     '.bordered': {
       '.noTopBorder': {
         borderTopWidth: 0
@@ -37,9 +40,11 @@ export default (variables = variable) => {
       borderBottomWidth: 0
     },
     height: 38,
-    backgroundColor: '#F0EFF5',
+    backgroundColor: 'rgb(239,240,241)',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: variables.listItemPadding + 5
   }
 

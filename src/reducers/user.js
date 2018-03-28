@@ -3,9 +3,11 @@ const initialState = {
   userInfo: {},
   userProfile: {},
   userAccount: {},
-  playlist: [],
+  like: [], // 创建的歌单
+  sc: [], // 收藏
   subCount: {}
 }
+
 export default function (state = initialState, action) {
   const {payload, error, meta = {}, type} = action
   const {sequence = {}, phone} = meta
@@ -24,9 +26,20 @@ export default function (state = initialState, action) {
       }
       return state
     case types.GET_PLAY_LIST:
+      let list = payload.playlist || []
+      let sc = []
+      let like = []
+      list.map((res) => {
+        if (res.subscribed) {
+          sc.push(res)
+        } else {
+          like.push(res)
+        }
+      })
       return {
         ...state,
-        playlist: payload.playlist,
+        like: like,
+        sc: sc,
         subCount: payload.subCount
       }
     case types.LOGOUT:

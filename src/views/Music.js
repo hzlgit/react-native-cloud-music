@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Image, StatusBar } from 'react-native'
-import {Icon, Text, Container, Content, Row, Col, Header, Item, Input, Button, ListItem, Left, Right, Body, Thumbnail} from 'native-base'
+import { StyleSheet, View, Image, StatusBar, TouchableOpacity } from 'react-native'
+import {Icon, Text, Container, Content, Separator, Col, Header, Item, Input, Button, ListItem, Left, Right, Body, Thumbnail} from 'native-base'
 import RightButton from '../components/header/RightButton'
 
 class Music extends Component {
@@ -13,20 +13,39 @@ class Music extends Component {
         <RightButton />
       )
     }
+    constructor (props) {
+      super(props)
+      this.state = {
+        likeExpand: true,
+        scExpand: true
+      }
+    }
     componentDidMount () {
       const {user = {}, actions} = this.props
       if (user && user.userInfo.id) {
         actions.getPlaylist(user.userInfo.id)
       }
     }
-
-    gotoLogin = () => {
-      this.props.navigation.navigate('Login')
+    _onItemPress (list) {
+      this.props.navigation.push('MusicList', {playlist: list})
     }
-
+    _renderlist (list) {
+      return list.map((res) => {
+        return (
+          <ListItem key={res.id} onPress={() => this._onItemPress(res)}>
+            <Thumbnail square size={80} source={{ uri: res.coverImgUrl }} />
+            <Body>
+              <Text>{res.name}</Text>
+              <Text note>{res.trackCount}首</Text>
+            </Body>
+          </ListItem>
+        )
+      })
+    }
     render () {
+      const {user} = this.props
       return (
-        <Container>
+        <Container style={{backgroundColor: 'rgb(252,251,254)'}}>
           <StatusBar barStyle='light-content' />
           <Content>
             <View style={styles.list}>
@@ -78,6 +97,25 @@ class Music extends Component {
                   <Icon type='Entypo' name='chevron-thin-right' style={{fontSize: 16}} />
                 </Right>
               </ListItem>
+              <Separator>
+                <View style={styles.titleWrap}>
+                  <TouchableOpacity style={styles.iconBtn} activeOpacity={1} onPress={() => this.setState({likeExpand: !this.state.likeExpand})}>
+                    <Icon type='Entypo' name={this.state.likeExpand ? 'chevron-thin-down' : 'chevron-thin-right'} style={{fontSize: 16, color: '#666'}} />
+                  </TouchableOpacity>
+                  <Text>我创建的歌单</Text>
+                </View>
+
+              </Separator>
+              {this.state.likeExpand ? this._renderlist(user.like) : null}
+              <Separator>
+                <View style={styles.titleWrap}>
+                  <TouchableOpacity style={styles.iconBtn} activeOpacity={1} onPress={() => this.setState({scExpand: !this.state.scExpand})}>
+                    <Icon type='Entypo' name={this.state.scExpand ? 'chevron-thin-down' : 'chevron-thin-right'} style={{fontSize: 16, color: '#666'}} />
+                  </TouchableOpacity>
+                  <Text>我收藏的歌单</Text>
+                </View>
+              </Separator>
+              {this.state.scExpand ? this._renderlist(user.sc) : null}
             </View>
           </Content>
         </Container>
@@ -86,7 +124,14 @@ class Music extends Component {
 }
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: '#fff'
+    // backgroundColor: '#fff'
+  },
+  titleWrap: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  iconBtn: {
+    marginRight: 5
   }
 })
 export const LayoutComponent = Music

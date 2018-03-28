@@ -4,6 +4,7 @@ import * as UtilsComponent from './Utils'
 import connectComponent from '../utils/connectComponent'
 import AppNavigator, {getCurrentScreen} from '../configs/Routers'
 import {addNavigationHelpers, NavigationActions} from 'react-navigation'
+import {initializeListeners} from 'react-navigation-redux-helpers'
 import {addListener} from '../utils/redux'
 
 const Utils = connectComponent(UtilsComponent)
@@ -13,6 +14,9 @@ class Navigation extends Component {
   constructor (props) {
     super(props)
     this.lastBackPressed = null
+  }
+  componentDidMount () {
+    initializeListeners('root', this.props.nav)
   }
   componentWillMount () {
     BackHandler.addEventListener('hardwareBackPress', this.backHandle)

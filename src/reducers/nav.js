@@ -2,6 +2,8 @@ import * as types from '../constants/ActionTypes'
 import AppNavigator, {routerReducer} from '../configs/Routers'
 
 const firstAction = AppNavigator.router.getActionForPathAndParams('Main')
+// const tempNavState = AppNavigator.router.getStateForAction(firstAction)
+// const secondAction = AppNavigator.router.getActionForPathAndParams('Login')
 const initialNavState = AppNavigator.router.getStateForAction(
   firstAction
 )

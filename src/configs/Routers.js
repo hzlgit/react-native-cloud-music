@@ -4,20 +4,21 @@ import {
   TabNavigator,
   TabBarBottom
 } from 'react-navigation'
+import { BlurView } from 'react-native-blur'
 import * as LoginComponent from '../views/Login'
 import * as HomeComponent from '../views/Home'
 import * as AccountComponent from '../views/Account'
 import * as MusicComponent from '../views/Music'
 import * as DetailComponent from '../views/Detail'
+import * as MusicList from '../views/MusicList'
 import connectComponent from '../utils/connectComponent'
-import { BlurView } from 'react-native-blur'
 
 const mainColor = 'rgb(60,60,60)'
 const HomeNavigator = TabNavigator(
   {
-    Home: { screen: connectComponent(HomeComponent) },
-    Music: { screen: connectComponent(MusicComponent) },
-    Account: { screen: connectComponent(AccountComponent) }
+    Home: {screen: connectComponent(HomeComponent)},
+    Music: {screen: connectComponent(MusicComponent)},
+    Account: {screen: connectComponent(AccountComponent)}
   },
   {
     tabBarComponent: TabBarBottom,
@@ -39,12 +40,14 @@ const HomeNavigator = TabNavigator(
 
 const MainNavigator = StackNavigator(
   {
-    HomeNavigator: { screen: HomeNavigator },
-    Detail: { screen: connectComponent(DetailComponent) }
+    HomeNavigator: {screen: HomeNavigator},
+    Detail: {screen: connectComponent(DetailComponent)},
+    MusicList: {screen: connectComponent(MusicList)}
   },
   {
-    // headerMode: 'float',
+    headerMode: 'float',
     headerTransitionPreset: 'uikit',
+    initialRouteName: 'HomeNavigator',
     navigationOptions: {
       headerStyle: {
         backgroundColor: mainColor,
@@ -54,10 +57,11 @@ const MainNavigator = StackNavigator(
       headerTitleStyle: {
         fontWeight: 'bold'
       },
-      headerTransparent: true,
-      headerBackground: (
-        <BlurView style={{ flex: 1 }} blurType='light' blurAmount={10} />
-      )
+      headerBackTitle: null,
+      headerTransparent: true
+      // headerBackground: (
+      //   <BlurView style={{ flex: 1, backgroundColor: mainColor }} blurType='light' blurAmount={10} />
+      // )
     }
   }
 )
@@ -80,10 +84,10 @@ const AppNavigator = StackNavigator(
         fontWeight: 'bold'
       },
       headerTransparent: true,
-      headerBackTitle: null,
-      headerBackground: (
-        <BlurView style={{ flex: 1 }} intensity={98} />
-      )
+      headerBackTitle: null
+      // headerBackground: (
+      //   <BlurView style={{ flex: 1, backgroundColor: mainColor }} blurType='light' blurAmount={10} />
+      // )
     }
     // navigationOptions: {
     //     gesturesEnabled: false,

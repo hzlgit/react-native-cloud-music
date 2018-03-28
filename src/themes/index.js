@@ -177,7 +177,7 @@ export default {
 
   // List
   listBg: 'transparent',
-  listBorderColor: '#fafafa',
+  listBorderColor: 'rgb(230,230,231)',
   listDividerBg: '#f4f4f4',
   listBtnUnderlayColor: '#DDD',
   listItemPadding: platform === 'ios' ? 10 : 12,
@@ -231,8 +231,8 @@ export default {
   titleFontfamily: platform === 'ios' ? 'System' : 'Roboto_medium',
   titleFontSize: platform === 'ios' ? 17 : 19,
   subTitleFontSize: platform === 'ios' ? 12 : 14,
-  subtitleColor: platform === 'ios' ? '#8e8e93' : '#FFF',
-  titleFontColor: platform === 'ios' ? '#000' : '#FFF',
+  subtitleColor: platform === 'ios' ? '#fff' : '#FFF',
+  titleFontColor: platform === 'ios' ? '#fff' : '#FFF',
 
   // Other
   borderRadiusBase: platform === 'ios' ? 5 : 2,
