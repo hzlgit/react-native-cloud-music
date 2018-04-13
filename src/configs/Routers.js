@@ -5,13 +5,14 @@ import {
   TabBarBottom
 } from 'react-navigation'
 import { BlurView } from 'react-native-blur'
+import connectComponent from '../utils/connectComponent'
 import * as LoginComponent from '../views/Login'
 import * as HomeComponent from '../views/Home'
 import * as AccountComponent from '../views/Account'
 import * as MusicComponent from '../views/Music'
 import * as DetailComponent from '../views/Detail'
 import * as MusicList from '../views/MusicList'
-import connectComponent from '../utils/connectComponent'
+import * as PlayBox from '../views/PlayBox'
 
 const mainColor = 'rgb(60,60,60)'
 const HomeNavigator = TabNavigator(
@@ -42,7 +43,8 @@ const MainNavigator = StackNavigator(
   {
     HomeNavigator: {screen: HomeNavigator},
     Detail: {screen: connectComponent(DetailComponent)},
-    MusicList: {screen: connectComponent(MusicList)}
+    MusicList: {screen: connectComponent(MusicList)},
+    PlayBox: {screen: connectComponent(PlayBox)}
   },
   {
     headerMode: 'float',
@@ -128,10 +130,6 @@ export function getCurrentScreen (navigationState) {
     return getCurrentScreen(route)
   }
   return route.routeName
-}
-
-export function routerReducer (state, action = {}) {
-  return AppNavigator.router.getStateForAction(action, state)
 }
 
 export default AppNavigator

@@ -1,35 +1,34 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Image, StatusBar, TouchableOpacity, Dimensions } from 'react-native'
 import { formatTenThousand } from '../utils'
-import { SafeAreaView} from 'react-navigation'
+import { SafeAreaView, withNavigationFocus} from 'react-navigation'
 import {Icon, Text, Container, Content, Row, Col} from 'native-base'
 import Swiper from 'react-native-swiper'
 import SearchButton from '../components/SearchButton'
 import RightButton from '../components/header/RightButton'
 
 class Home extends Component {
-    static navigationOptions = {
-      title: '发现',
-      tabBarLabel: '发现',
-      tabBarIcon: ({ focused, tintColor }) =>
-        <Image style={{width: 55, height: 55}} source={focused ? require('../../images/tab/discover_selected.png') : require('../../images/tab/discover_prs.png')} />,
-      headerTitle: (<SearchButton placeholder='Oops 很好听哦' />),
-      headerRight: (<RightButton />)
-      // header:()=>{
-      //     return (
-      //         <Header searchBar rounded>
-      //             <Item>
-      //                 <SearchButton placeholder='Oops 很好听哦'/>
-      //             </Item>
-      //             <RightButton style={{marginRight:0}}/>
-      //         </Header>
-      //     )
-      // }
+    static navigationOptions =({navigation}) => {
+      let params = navigation.state.params
+      return {
+        title: '发现',
+        tabBarLabel: '发现',
+        tabBarIcon: ({ focused, tintColor }) =>
+          <Image style={{width: 55, height: 55}} source={focused ? require('../../images/tab/discover_selected.png') : require('../../images/tab/discover_prs.png')} />,
+        headerTitle: (<SearchButton placeholder='Oops 很好听哦' />),
+        headerRight: params && params.isShowBoxBtn ? <RightButton isPlaying={params && params.status === 2} onPress={() => navigation.push('PlayBox')} /> : null
+      }
     }
     constructor (props) {
       super(props)
       this.state = {
         showSwiper: false
+      }
+    }
+    componentWillReceiveProps (next) {
+      if (next.isFocused && next.isFocused !== this.props.isFocused) {
+        this.props.navigation.setParams({status: next.playbox.status})
+        this.props.navigation.setParams({ isShowBoxBtn: next.music.list && next.music.list.length > 0 })
       }
     }
     componentDidMount () {
@@ -207,11 +206,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   }
 })
-export const LayoutComponent = Home
+export const LayoutComponent = withNavigationFocus(Home)
 export function mapStateToProps (state) {
   return {
     user: state.user,
     base: state.base,
-    baseUI: state.baseUI
+    baseUI: state.baseUI,
+    playbox: state.playbox,
+    music: state.music
   }
 }

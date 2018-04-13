@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, StatusBar, TouchableOpacity } from 'react-native'
 import {Icon, Text, Container, Content, Separator, Col, Header, Item, Input, Button, ListItem, Left, Right, Body, Thumbnail} from 'native-base'
 import RightButton from '../components/header/RightButton'
+import { withNavigationFocus } from 'react-navigation'
 
 class Music extends Component {
-    static navigationOptions = {
-      title: '我的音乐',
-      tabBarLabel: '我的',
-      tabBarIcon: ({ focused, tintColor }) =>
-        <Image style={{width: 55, height: 55}} source={focused ? require('../../images/tab/music_selected.png') : require('../../images/tab/music_prs.png')} />,
-      headerRight: (
-        <RightButton />
-      )
+    static navigationOptions = ({navigation}) => {
+      let params = navigation.state.params
+      return {
+        title: '我的音乐',
+        tabBarLabel: '我的',
+        tabBarIcon: ({ focused, tintColor }) =>
+          <Image style={{width: 55, height: 55}} source={focused ? require('../../images/tab/music_selected.png') : require('../../images/tab/music_prs.png')} />,
+        headerRight: params && params.isShowBoxBtn ? <RightButton isPlaying={params && params.status === 2} onPress={() => navigation.push('PlayBox')} /> : null
+      }
     }
     constructor (props) {
       super(props)
@@ -20,9 +22,15 @@ class Music extends Component {
         scExpand: true
       }
     }
+    componentWillReceiveProps (next) {
+      if (next.isFocused && next.isFocused !== this.props.isFocused) {
+        this.props.navigation.setParams({status: next.playbox.status})
+        this.props.navigation.setParams({ isShowBoxBtn: next.music.list && next.music.list.length > 0 })
+      }
+    }
     componentDidMount () {
       const {user = {}, actions} = this.props
-      if (user && user.userInfo.id) {
+      if (user.userInfo && user.userInfo.id) {
         actions.getPlaylist(user.userInfo.id)
       }
     }
@@ -134,9 +142,11 @@ const styles = StyleSheet.create({
     marginRight: 5
   }
 })
-export const LayoutComponent = Music
+export const LayoutComponent = withNavigationFocus(Music)
 export function mapStateToProps (state) {
   return {
-    user: state.user
+    user: state.user,
+    music: state.music,
+    playbox: state.playbox
   }
 }

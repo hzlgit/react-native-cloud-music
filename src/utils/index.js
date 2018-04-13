@@ -196,3 +196,22 @@ function Format (date, fmt) { // author: meizz
   }
   return fmt
 }
+
+const deviceH = Dimensions.get('window').height
+const deviceW = Dimensions.get('window').width
+
+const basePx = 375
+
+export function px2dp (px) {
+  return px * deviceW / basePx
+}
+
+export function getNextById (ob, arr) {
+  let i = 0
+  arr.map((r, index) => {
+    if (ob.id === r.id) {
+      i = index
+    }
+  })
+  return arr[i + 1]
+}

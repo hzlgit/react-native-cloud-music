@@ -16,7 +16,7 @@ class Navigation extends Component {
     this.lastBackPressed = null
   }
   componentDidMount () {
-    initializeListeners('root', this.props.nav)
+    // initializeListeners('root', this.props.nav)
   }
   componentWillMount () {
     BackHandler.addEventListener('hardwareBackPress', this.backHandle)
@@ -45,7 +45,7 @@ class Navigation extends Component {
     return (
       <View style={styles.bg}>
         <AppNavigator
-          navigation={addNavigationHelpers({ dispatch, state: nav, addListener })}
+
           ref={(v) => { this.navigation = v }}
         />
         <Utils />

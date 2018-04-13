@@ -333,7 +333,21 @@ export default (variables = variable) => {
         }
       }
     },
-
+    '.under': {
+      'NativeBase.Text': {
+        '.note': {
+          fontSize: 16,
+          lineHeight: null
+        },
+        fontSize: 11,
+        color: variables.inverseTextColor
+      },
+      'NativeBase.Icon': {
+        color: variables.inverseTextColor
+      },
+      alignSelf: 'center',
+      flexDirection: 'column'
+    },
     paddingVertical: variables.buttonPadding,
     // paddingHorizontal: variables.buttonPadding + 10,
     backgroundColor: variables.btnPrimaryBg,

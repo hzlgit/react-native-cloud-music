@@ -30,7 +30,7 @@ if (isDebuggingInChrome) {
 const config = {
   key: 'root',
   storage,
-  blacklist: ['nav', 'utils']
+  blacklist: ['utils', 'playbox']
 }
 
 export default function configureStore (initialState) {

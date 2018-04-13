@@ -5,8 +5,8 @@ import {Button} from 'native-base'
 export default class RightButton extends Component {
   render () {
     return (
-      <Button style={[styles.btn, this.props.style]} transparent onPress={() => this.props.onPress}>
-        <Image style={styles.image} source={require('../../../images/loading1.png')} />
+      <Button style={[styles.btn, this.props.style]} transparent onPress={() => this.props.onPress()}>
+        <Image style={styles.image} source={this.props.isPlaying ? require('../../../images/playing.gif') : require('../../../images/loading1.png')} />
       </Button>
     )
   }
